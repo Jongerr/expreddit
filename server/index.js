@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const getSubredditData = require('./helpers/getSubredditData').fetchSubredditPostData;
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(bodyParser.urlencoded());
 
 app.post('/subreddit', function(req, res) {
   console.log('REQ body:', req.body);
+  getSubredditData('dumby text', () => {});
   res.json(req.body);
 });
 
