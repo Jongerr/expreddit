@@ -22,12 +22,14 @@ const fetchPostReplyData = (posts, callback) => {
   let postsToQuery = posts.length;
 
   posts.forEach((post) => {
-    request('https://www.reddit.com' + post.url, (err, res, body) => {
+    request('https://www.reddit.com' + post.url + '.json', (err, res, body) => {
       if(err) console.log(err);
       else {
-        repliesPerPost[post.id] = body;
+        repliesPerPost[post.id] = JSON.parse(body)[1].data.children.slice(0,3);
         if(--postsToQuery === 0) {
+          formatPostReplies(repliesPerPost);
           console.log(repliesPerPost);
+
         }
       }
     });
@@ -43,5 +45,14 @@ const fetchPostReplyData = (posts, callback) => {
 
 const formatPostReplies = (replies) => {
   //pluck desired fields from reply obj
+  for(let key in replies) {
+    replies[key] = replies[key].map((reply) => {
+      return {
+        author: reply.data.author,
+        body: reply.data.body,
+        score: reply.data.score
+      };
+    });
+  }
   return replies;
 }
