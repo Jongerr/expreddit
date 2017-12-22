@@ -1,0 +1,19 @@
+{
+  "name": "expreddit",
+  "version": "1.0.0",
+  "description": "Condenses reddit's top posts into a lightning fast browsing experience.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jongerr/expreddit.git"
+  },
+  "author": "Travis Michie",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jongerr/expreddit/issues"
+  },
+  "homepage": "https://github.com/Jongerr/expreddit#readme"
+}
