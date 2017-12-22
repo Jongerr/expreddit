@@ -11,18 +11,37 @@ module.exports.fetchSubredditPostData = (subreddit, callback) => {
   })
   .slice(0,2)
   .map((post) => {
-    return post.data.permalink;
+    return {url: post.data.permalink, id: post.data.name};
   })
   console.log(topTwoPosts);
+  fetchPostReplyData(topTwoPosts, () => {});
 };
 
-const fetchPostReplyData = (postUrl, callback) => {
-  //Query post url
+const fetchPostReplyData = (posts, callback) => {
+  let repliesPerPost = {};
+  let postsToQuery = posts.length;
+
+  posts.forEach((post) => {
+    request('https://www.reddit.com' + post.url, (err, res, body) => {
+      if(err) console.log(err);
+      else {
+        repliesPerPost[post.id] = body;
+        if(--postsToQuery === 0) {
+          console.log(repliesPerPost);
+        }
+      }
+    });
+  });
+
+
+  //Query post urls
   //get top three replies from post
   //format replies
   //invoke callback on array of replies
+  
 };
 
-const formatPostReplies = (reply) => {
+const formatPostReplies = (replies) => {
   //pluck desired fields from reply obj
+  return replies;
 }
