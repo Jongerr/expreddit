@@ -12,7 +12,20 @@ class App extends React.Component {
   }
 
   handleSubmit(e) {
+    const name = JSON.stringify({name: this.state.name});
     console.log('Hello,', this.state.name);
+    fetch('/subreddit', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-type': 'application/json'
+      },
+      body: name
+    }).then(response => {
+      console.log('Response:', response);
+      return response.json();
+    })
+      .then(response => console.log(response));
     e.preventDefault();
   }
 
