@@ -12,7 +12,7 @@ class App extends React.Component {
   }
 
   handleSubmit(e) {
-    const name = JSON.stringify({name: this.state.name});
+    const name = JSON.stringify({name: this.state.name.trim()});
     console.log('Hello,', this.state.name);
     fetch('/subreddit', {
       method: 'POST',
