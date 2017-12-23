@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import RedditPost from './components/redditPost.jsx';
 
 class App extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       subredditName: '',
       subredditData: {}

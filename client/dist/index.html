@@ -13,13 +13,12 @@
       display: none;
     }
     .post-container {
-      padding-left: 1em;
-      padding-top: 1em;
+      padding: 1em;
       background-color: #262626;
       border-bottom: 15px solid #808080;
     }
     .post-title a {
-      padding-right: auto;
+      margin-right: 7px;
       margin-top: 10px;
       text-decoration: none;
       color: white;
@@ -44,6 +43,36 @@
     }
     body {
       background-color: rgba(38, 38, 38, 0.388);
+    }
+
+    /* accordian */
+    .accordion {
+      margin-left: 5px !important;
+      background-color: #eee;
+      color: #444;
+      cursor: pointer;
+      padding: 18px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      font-size: 15px;
+      transition: 0.4s;
+      border-radius: 3px;
+    }
+
+    .active, .accordion:hover {
+      background-color: #ccc;
+    }
+
+    .panel {
+      color: black;
+      border-radius: 2px;
+      padding: 5px 10px;
+      background-color: white;
+    }
+    .panel p {
+      margin: 5px 0px;
     }
 
   </style>
