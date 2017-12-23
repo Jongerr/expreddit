@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import RedditPost from './components/redditPost.jsx';
 
 class App extends React.Component {
   constructor() {
@@ -29,7 +30,7 @@ class App extends React.Component {
       body: subredditName
     }).then(response => response.json())
       .then(response => this.setState({subredditData: response}));
-      
+
     e.preventDefault();
   }
 
@@ -40,6 +41,11 @@ class App extends React.Component {
           <input type="text" value={this.state.subredditName} placeholder= "subreddit" onChange={this.handleInputChange.bind(this)}/>
           <button type="submit">Submit</button>
         </form>
+        <div className="reddit-posts">
+          {Object.keys(this.state.subredditData).map((key) => (
+            <RedditPost post={this.state.subredditData[key]} key={key} />
+          ))}
+        </div>
       </div>
     )
   }
