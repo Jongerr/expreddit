@@ -10,17 +10,21 @@ let testData = {
   ]
 };
 
-request({
-  method: 'POST',
-  url: endpoint,
-  Accept: 'application/json',
-  headers: {
-    'Ocp-Apim-Subscription-Key': TOKEN,
-  },
-  body: JSON.stringify(testData)
-}, (err, res, body) => {
-  console.log(body);
-});
-
-
-
+module.exports.getSentimentOfText = (text) => {
+  text = {
+    documents: [
+      {'id': 'blarg', text: text}
+    ]
+  };
+  request({
+    method: 'POST',
+    url: endpoint,
+    Accept: 'application/json',
+    headers: {
+      'Ocp-Apim-Subscription-Key': TOKEN,
+    },
+    body: JSON.stringify(text)
+  }, (err, res, body) => {
+    console.log(body);
+  });
+}
