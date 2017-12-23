@@ -4,10 +4,15 @@ import PostReply from './postReply.jsx';
 
 class RedditPost extends React.Component{
   constructor(props) {
+    let buttonStyle = {display: 'inline-block'};
+    if(!props.post.selftext) {
+      buttonStyle = {display: 'none'};
+    }
     super(props);
     this.state = {
       accordClass: 'inactive',
-      panelStyle: {display: 'none'}
+      panelStyle: {display: 'none'},
+      buttonStyle: buttonStyle
     };
   }
 
@@ -24,9 +29,9 @@ class RedditPost extends React.Component{
       <div className="post-container">
         <div className="post-title">
           <a href={this.props.post.url}> {this.props.post.title}</a>
-          <button className={"accordian " + this.state.accordClass} onClick={this.handleClick.bind(this)}>...</button>
+          <button className={"accordian " + this.state.accordClass} onClick={this.handleClick.bind(this)} style={this.state.buttonStyle}>...</button>
           <div className="panel" style={this.state.panelStyle}>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p>{this.props.post.selftext}</p>
           </div>
         </div>
         <ul>
