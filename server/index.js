@@ -13,10 +13,10 @@ app.use(bodyParser.urlencoded());
 
 app.post('/subreddit', function(req, res) {
   console.log('REQ body:', req.body);
-  getSubredditData('dumby text', (replies) => {
+  getSubredditData(req.body.subredditName, (replies) => {
     console.log('REPLIES IN SERVER:', replies, '\n------------------------------');
+    res.json(replies);
   });
-  res.json(req.body);
 });
 
 

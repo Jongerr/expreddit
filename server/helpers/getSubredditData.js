@@ -6,15 +6,18 @@ const replyTwo = require('./testDataSubmission2');
 module.exports.fetchSubredditPostData = (subreddit, callback) => {
   //Query given subreddit
   //invoke callback on top 2 non-stickied posts
-  let topTwoPosts = subredditData.data.children.filter((post) => {
-    return !post.data.stickied;
-  })
-  .slice(0,2)
-  .map((post) => {
-    return {url: post.data.permalink, id: post.data.name, title: post.data.title};
-  });
-  fetchPostReplyData(topTwoPosts, (replies) => {
-    callback(replies);
+  request('https://www.reddit.com/r/' + subreddit + '.json', (err, res, body) => {
+    console.log('Reddit response body:', JSON.parse(body));
+    let topTwoPosts = JSON.parse(body).data.children.filter((post) => {
+      return !post.data.stickied;
+    })
+    .slice(0,2)
+    .map((post) => {
+      return {url: post.data.permalink, id: post.data.name, title: post.data.title};
+    });
+    fetchPostReplyData(topTwoPosts, (replies) => {
+      callback(replies);
+    });
   });
 };
 

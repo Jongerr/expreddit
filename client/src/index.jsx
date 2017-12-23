@@ -4,23 +4,26 @@ import ReactDOM from 'react-dom';
 class App extends React.Component {
   constructor() {
     super();
-    this.state = {name: 'Travis'};
+    this.state = {subredditName: ''};
   }
 
   handleInputChange(e) {
-    this.setState({name: e.target.value});
+    this.setState({subredditName: e.target.value});
   }
 
   handleSubmit(e) {
-    const name = JSON.stringify({name: this.state.name.trim()});
-    console.log('Hello,', this.state.name);
+    const subredditName = JSON.stringify({subredditName: this.state.subredditName.trim()});
+    if(this.state.subredditName.length === 0) {
+      return;
+    }
+    console.log('Hello,', this.state.subredditName);
     fetch('/subreddit', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-type': 'application/json'
       },
-      body: name
+      body: subredditName
     }).then(response => {
       console.log('Response:', response);
       return response.json();
@@ -33,7 +36,7 @@ class App extends React.Component {
     return (
       <div> 
         <form onSubmit={this.handleSubmit.bind(this)}>
-          <input type="text" value={this.state.name} onChange={this.handleInputChange.bind(this)}/>
+          <input type="text" value={this.state.subredditName} placeholder= "subreddit" onChange={this.handleInputChange.bind(this)}/>
           <button type="submit">Submit</button>
         </form>
       </div>
