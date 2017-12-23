@@ -2,13 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 const PostReply = (props) => (
-  <div className="post-container">
-    <p className="post post-body">
+  <div className="reply-container">
+    <p className="reply reply-body">
       {props.data.body}
     </p>
-    <div className="post-legend">
-      <span className="post post-author">{props.data.author}</span>
-      <span className="post post-score">{props.data.score}</span>
+    <div className="reply-legend">
+      <span className="reply reply-author">By: {props.data.author}</span>
+      <span className="reply reply-score">Score: {props.data.score}</span>
     </div>
   </div>
 );

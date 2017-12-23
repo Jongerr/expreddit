@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom';
 import PostReply from './postReply.jsx';
 
 const RedditPost = (props) => (
-  <div>
-    <span className="post-title">
+  <div className="post-container">
+    <p className="post-title">
       <a href={props.post.url}> {props.post.title}</a>
-    </span>
+    </p>
     <ul>
       {props.post.replies.map((reply, i) => (
         <PostReply data={reply} key={i} />

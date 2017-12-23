@@ -3,15 +3,13 @@ const subredditData = require('./testDataSubreddit');
 const replyOne = require('./testDataSubmission1');
 const replyTwo = require('./testDataSubmission2');
 
-module.exports.fetchSubredditPostData = (subreddit, callback) => {
-  //Query given subreddit
-  //invoke callback on top 2 non-stickied posts
+module.exports.fetchSubredditPostData = (subreddit, callback, postAmmount=3) => {
   request('https://www.reddit.com/r/' + subreddit + '.json', (err, res, body) => {
     console.log('Reddit response body:', JSON.parse(body));
     let topTwoPosts = JSON.parse(body).data.children.filter((post) => {
       return !post.data.stickied;
     })
-    .slice(0,2)
+    .slice(0, postAmmount)
     .map((post) => {
       return {url: post.data.permalink, id: post.data.name, title: post.data.title};
     });
@@ -27,12 +25,14 @@ const fetchPostReplyData = (posts, callback) => {
   let postsToQuery = posts.length;
 
   posts.forEach((post) => {
+    //Query post urls
     request('https://www.reddit.com' + post.url + '.json', (err, res, body) => {
       if(err) console.log(err);
       else {
         repliesPerPost[post.id] = {};
         repliesPerPost[post.id].title = post.title;
         repliesPerPost[post.id].url = 'https://www.reddit.com' + post.url;
+        //get top three replies from post
         repliesPerPost[post.id].replies = JSON.parse(body)[1].data.children.slice(0,3);
         if(--postsToQuery === 0) {
           formatPostReplies(repliesPerPost);
@@ -41,12 +41,6 @@ const fetchPostReplyData = (posts, callback) => {
       }
     });
   });
-
-  //Query post urls
-  //get top three replies from post
-  //format replies
-  //invoke callback on array of replies
-  
 };
 
 const formatPostReplies = (posts) => {
