@@ -4,7 +4,8 @@ const replyOne = require('./testDataSubmission1');
 const replyTwo = require('./testDataSubmission2');
 
 module.exports.fetchSubredditPostData = (subreddit, callback, postAmmount=5) => {
-  request('https://www.reddit.com/r/' + subreddit + '.json', (err, res, body) => {
+  subreddit = !subreddit.length ? 'random' : subreddit;
+  request('https://www.reddit.com/r/'+ subreddit + '.json?sort=top&t=week', (err, res, body) => {
     console.log('Reddit response body:', JSON.parse(body));
     //filter out stickied posts
     let topPosts = JSON.parse(body).data.children.filter((post) => {
@@ -16,7 +17,8 @@ module.exports.fetchSubredditPostData = (subreddit, callback, postAmmount=5) => 
         url: post.data.permalink,
         id: post.data.name,
         title: post.data.title,
-        selftext: post.data.selftext
+        selftext: post.data.selftext,
+        subreddit: post.data.subreddit
       };
     });
     fetchPostReplyData(topPosts, (replies) => {
@@ -39,6 +41,7 @@ const fetchPostReplyData = (posts, callback) => {
         repliesPerPost[post.id].title = post.title;
         repliesPerPost[post.id].url = 'https://www.reddit.com' + post.url;
         repliesPerPost[post.id].selftext = post.selftext;
+        repliesPerPost[post.id].subreddit = post.subreddit;
         //get top three replies from post
         repliesPerPost[post.id].replies = JSON.parse(body)[1].data.children.slice(0,3);
         if(--postsToQuery === 0) {

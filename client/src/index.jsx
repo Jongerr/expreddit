@@ -7,7 +7,8 @@ class App extends React.Component {
     super(props);
     this.state = {
       subredditName: '',
-      subredditData: {}
+      subredditData: {},
+      subredditTitle: ''
     };
   }
 
@@ -17,9 +18,9 @@ class App extends React.Component {
 
   handleSubmit(e) {
     const subredditName = JSON.stringify({subredditName: this.state.subredditName.trim()});
-    if(this.state.subredditName.length === 0) {
-      return;
-    }
+    // if(this.state.subredditName.length === 0) {
+    //   return;
+    // }
     console.log('Hello,', this.state.subredditName);
     fetch('/subreddit', {
       method: 'POST',
@@ -29,18 +30,24 @@ class App extends React.Component {
       },
       body: subredditName
     }).then(response => response.json())
-      .then(response => this.setState({subredditData: response}));
+      .then(response => {
+        this.setState({subredditName: ''});
+        console.log(response);
+        let key = Object.keys(response)[0];
+        this.setState({subredditData: response, subredditTitle: '/r' + response[key].subreddit});
+      });
 
     e.preventDefault();
   }
 
   render() {
     return (
-      <div> 
+      <div>
         <form onSubmit={this.handleSubmit.bind(this)}>
           <input type="text" value={this.state.subredditName} placeholder= "subreddit" onChange={this.handleInputChange.bind(this)}/>
           <button type="submit">Submit</button>
         </form>
+        <h1 className="subreddit-title">{this.state.subredditTitle}</h1>
         <div className="reddit-posts">
           {Object.keys(this.state.subredditData).map((key) => (
             <RedditPost post={this.state.subredditData[key]} key={key} />
