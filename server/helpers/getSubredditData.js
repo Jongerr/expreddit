@@ -11,11 +11,13 @@ module.exports.fetchSubredditPostData = (subreddit, callback) => {
   })
   .slice(0,2)
   .map((post) => {
-    return {url: post.data.permalink, id: post.data.name};
-  })
-  console.log(topTwoPosts);
-  fetchPostReplyData(topTwoPosts, () => {});
+    return {url: post.data.permalink, id: post.data.name, title: post.data.title};
+  });
+  fetchPostReplyData(topTwoPosts, (replies) => {
+    callback(replies);
+  });
 };
+
 
 const fetchPostReplyData = (posts, callback) => {
   let repliesPerPost = {};
@@ -25,16 +27,17 @@ const fetchPostReplyData = (posts, callback) => {
     request('https://www.reddit.com' + post.url + '.json', (err, res, body) => {
       if(err) console.log(err);
       else {
-        repliesPerPost[post.id] = JSON.parse(body)[1].data.children.slice(0,3);
+        repliesPerPost[post.id] = {};
+        repliesPerPost[post.id].title = post.title;
+        repliesPerPost[post.id].url = post.url;
+        repliesPerPost[post.id].replies = JSON.parse(body)[1].data.children.slice(0,3);
         if(--postsToQuery === 0) {
           formatPostReplies(repliesPerPost);
-          console.log(repliesPerPost);
-
+          callback(repliesPerPost);
         }
       }
     });
   });
-
 
   //Query post urls
   //get top three replies from post
@@ -43,10 +46,10 @@ const fetchPostReplyData = (posts, callback) => {
   
 };
 
-const formatPostReplies = (replies) => {
+const formatPostReplies = (posts) => {
   //pluck desired fields from reply obj
-  for(let key in replies) {
-    replies[key] = replies[key].map((reply) => {
+  for (let key in posts) {
+    posts[key].replies = posts[key].replies.map((reply) => {
       return {
         author: reply.data.author,
         body: reply.data.body,
@@ -54,5 +57,5 @@ const formatPostReplies = (replies) => {
       };
     });
   }
-  return replies;
+  return posts;
 }

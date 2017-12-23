@@ -13,7 +13,9 @@ app.use(bodyParser.urlencoded());
 
 app.post('/subreddit', function(req, res) {
   console.log('REQ body:', req.body);
-  getSubredditData('dumby text', () => {});
+  getSubredditData('dumby text', (replies) => {
+    console.log('REPLIES IN SERVER:', replies, '\n------------------------------');
+  });
   res.json(req.body);
 });
 
