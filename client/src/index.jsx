@@ -8,7 +8,8 @@ class App extends React.Component {
     this.state = {
       subredditName: '',
       subredditData: {},
-      subredditTitle: ''
+      subredditTitle: '',
+      sentiment: null
     };
   }
 

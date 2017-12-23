@@ -10,12 +10,9 @@ let testData = {
   ]
 };
 
-module.exports.getSentimentOfText = (text) => {
-  text = {
-    documents: [
-      {'id': 'blarg', text: text}
-    ]
-  };
+module.exports.getSentimentOfText = (subredditData) => {
+  let text = formatSubredditData(subredditData);
+  console.log('Text after formatting:', text);
   request({
     method: 'POST',
     url: endpoint,
@@ -28,3 +25,40 @@ module.exports.getSentimentOfText = (text) => {
     console.log(body);
   });
 }
+
+
+const formatSubredditData = (data) => {
+  let text = { documents: [] };
+  let id = 1;
+  Object.keys(data).forEach((key) => {
+    let postBody = data[key].selftext;
+    if(postBody) {
+      text.documents.push({id: id.toString(), text: postBody});
+      id++;
+    }
+    data[key].replies.forEach((reply) => {
+      text.documents.push({id: id.toString(), text: reply.body});
+      id++;
+    });
+  });
+  return text;
+}
+
+// Post:
+// t3_7lpwlb:
+// {
+//   title: 'The only cryptocurrency you should care about.',
+//     url: 'https://www.reddit.com/r/DotA2/comments/7lpwlb/the_only_cryptocurrency_you_should_care_about/',
+//       selftext: '',
+//         subreddit: 'DotA2',
+//           replies: [[Object], [Object], [Object]]
+// } } 
+
+//Reply:
+// {
+//   author: 'mrmeme2988',
+//     body: 'Thumb was broken in the smashing of the keyboard \n',
+//       score: 152
+// }
+
+// export default getSentimentOfText;
