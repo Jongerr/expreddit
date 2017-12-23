@@ -32,7 +32,7 @@ const fetchPostReplyData = (posts, callback) => {
       else {
         repliesPerPost[post.id] = {};
         repliesPerPost[post.id].title = post.title;
-        repliesPerPost[post.id].url = post.url;
+        repliesPerPost[post.id].url = 'https://www.reddit.com' + post.url;
         repliesPerPost[post.id].replies = JSON.parse(body)[1].data.children.slice(0,3);
         if(--postsToQuery === 0) {
           formatPostReplies(repliesPerPost);

@@ -4,7 +4,10 @@ import ReactDOM from 'react-dom';
 class App extends React.Component {
   constructor() {
     super();
-    this.state = {subredditName: ''};
+    this.state = {
+      subredditName: '',
+      subredditData: {}
+    };
   }
 
   handleInputChange(e) {
@@ -24,11 +27,9 @@ class App extends React.Component {
         'Content-type': 'application/json'
       },
       body: subredditName
-    }).then(response => {
-      console.log('Response:', response);
-      return response.json();
-    })
-      .then(response => console.log(response));
+    }).then(response => response.json())
+      .then(response => this.setState({subredditData: response}));
+      
     e.preventDefault();
   }
 
