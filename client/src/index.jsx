@@ -60,8 +60,13 @@ class App extends React.Component {
           <input type="text" value={this.state.subredditName} placeholder= "subreddit" onChange={this.handleInputChange.bind(this)}/>
           <button type="submit">Submit</button>
         </form>
-        <h1 className="subreddit-title">{this.state.subredditTitle}</h1>
-        <div>{this.state.sentiment}</div>
+        <div className="heading">
+          <h1 className="subreddit-title">{this.state.subredditTitle}</h1>
+          <div className="sentiment-container" style={this.state.sentiment ? {display: 'inline-block'} : {display: 'none'}}>
+            <div>Sentiment Score:</div>
+            <div>{this.state.sentiment}</div>
+          </div>
+        </div>
         <div className="reddit-posts">
           {Object.keys(this.state.subredditData).map((key) => (
             <RedditPost post={this.state.subredditData[key]} key={key} />

@@ -5,7 +5,7 @@
   <style>
     .reddit-posts {
       font-size: 20px;
-      margin: 2em;
+      margin-bottom: 2em;
       box-shadow: 0 0 0pt 3pt #808080;
       border-radius: 5px;
       color: white;
@@ -30,6 +30,7 @@
     .reply-body {
       font-size: 1em;
       margin-bottom: 3px;
+      margin-right: 1em;
     }
     .reply-legend {
       font-size: .7em;
@@ -41,6 +42,7 @@
     }
     .subreddit-title {
       padding: 3px 8px;
+      margin-top: 0;
       display: inline-block;
       color: white;
       background-color: rgb(38, 38, 38);
@@ -49,7 +51,22 @@
       border-right: 2px solid rgba(38, 38, 38, 0.925);
       border-bottom: 2px solid rgba(38, 38, 38, 0.925);
     }
-    .subreddit-title:empty {
+    .sentiment-container {
+      float: right;
+      padding: 3px 8px;
+      /* margin-left: auto; */
+      display: inline-block;
+      color: white;
+      background-color: rgb(38, 38, 38);
+      border-radius: 3px 0 0 3px;
+      border-top: 2px solid rgba(38, 38, 38, 0.925);
+      border-left: 2px solid rgba(38, 38, 38, 0.925);
+      border-bottom: 2px solid rgba(38, 38, 38, 0.925);
+    }
+    .heading {
+      margin-top: 1.2em;
+    }
+    .subreddit-title:empty, .sentiment-container:empty {
       display: none;
     }
     ul {
