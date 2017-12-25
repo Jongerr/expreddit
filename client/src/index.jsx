@@ -12,6 +12,7 @@ class App extends React.Component {
       sentiment: ''
     };
     this.setSentiment = this.setSentiment.bind(this);
+    this.fetchSubredditData = this.fetchSubredditData.bind(this);
   }
 
   handleInputChange(e) {
@@ -24,12 +25,7 @@ class App extends React.Component {
     this.setState({sentiment: averageSentiment});
   }
 
-  handleSubmit(e) {
-    const subredditName = JSON.stringify({subredditName: this.state.subredditName.trim()});
-    // if(this.state.subredditName.length === 0) {
-    //   return;
-    // }
-    console.log('Hello,', this.state.subredditName);
+  fetchSubredditData(subredditName) {
     fetch('/subreddit', {
       method: 'POST',
       headers: {
@@ -45,12 +41,25 @@ class App extends React.Component {
         let sentimentData = JSON.parse(response.sentiment);
         this.setState({
           subredditData: response.replies, 
-          subredditTitle: '/r' + response.replies[key].subreddit,
+          subredditTitle: 'r/' + response.replies[key].subreddit,
         });
         this.setSentiment(sentimentData);
       });
 
+  }
+
+  handleSubmit(e) {
+    const subredditName = JSON.stringify({subredditName: this.state.subredditName.trim()});
+    // if(this.state.subredditName.length === 0) {
+    //   return;
+    // }
+    console.log('Hello,', this.state.subredditName);
+    this.fetchSubredditData(subredditName);
     e.preventDefault();
+  }
+
+  componentDidMount() {
+    this.fetchSubredditData('');
   }
 
   render() {
