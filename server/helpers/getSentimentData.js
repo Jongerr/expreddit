@@ -12,6 +12,7 @@ let testData = {
 
 module.exports.getSentimentOfText = (subredditData, callback) => {
   let text = formatSubredditData(subredditData);
+  console.log('TEXT:', text);
   request({
     method: 'POST',
     url: endpoint,
@@ -31,6 +32,8 @@ const formatSubredditData = (data) => {
   let id = 1;
   Object.keys(data).forEach((key) => {
     let postBody = data[key].selftext;
+    text.documents.push({id: id.toString(), text: data[key].title});
+    id++;
     if(postBody) {
       text.documents.push({id: id.toString(), text: postBody});
       id++;

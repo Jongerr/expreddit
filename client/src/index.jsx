@@ -50,9 +50,6 @@ class App extends React.Component {
 
   handleSubmit(e) {
     const subredditName = JSON.stringify({subredditName: this.state.subredditName.trim()});
-    // if(this.state.subredditName.length === 0) {
-    //   return;
-    // }
     console.log('Hello,', this.state.subredditName);
     this.fetchSubredditData(subredditName);
     e.preventDefault();
