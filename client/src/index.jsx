@@ -9,12 +9,19 @@ class App extends React.Component {
       subredditName: '',
       subredditData: {},
       subredditTitle: '',
-      sentiment: null
+      sentiment: ''
     };
+    this.setSentiment = this.setSentiment.bind(this);
   }
 
   handleInputChange(e) {
     this.setState({subredditName: e.target.value});
+  }
+
+  setSentiment(sentimentData) {
+    const totalSentiment = sentimentData.documents.reduce((sum, sent) => (sum + Number(sent.score)), 0);
+    const averageSentiment = (totalSentiment / sentimentData.documents.length).toPrecision(5).toString();
+    this.setState({sentiment: averageSentiment});
   }
 
   handleSubmit(e) {
@@ -33,9 +40,14 @@ class App extends React.Component {
     }).then(response => response.json())
       .then(response => {
         this.setState({subredditName: ''});
-        console.log(response);
-        let key = Object.keys(response)[0];
-        this.setState({subredditData: response, subredditTitle: '/r' + response[key].subreddit});
+        console.log('Reponse:', response);
+        let key = Object.keys(response.replies)[0];
+        let sentimentData = JSON.parse(response.sentiment);
+        this.setState({
+          subredditData: response.replies, 
+          subredditTitle: '/r' + response.replies[key].subreddit,
+        });
+        this.setSentiment(sentimentData);
       });
 
     e.preventDefault();
@@ -49,6 +61,7 @@ class App extends React.Component {
           <button type="submit">Submit</button>
         </form>
         <h1 className="subreddit-title">{this.state.subredditTitle}</h1>
+        <div>{this.state.sentiment}</div>
         <div className="reddit-posts">
           {Object.keys(this.state.subredditData).map((key) => (
             <RedditPost post={this.state.subredditData[key]} key={key} />

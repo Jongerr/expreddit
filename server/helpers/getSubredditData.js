@@ -6,7 +6,6 @@ const replyTwo = require('./testDataSubmission2');
 module.exports.fetchSubredditPostData = (subreddit, callback, postAmmount=5) => {
   subreddit = !subreddit.length ? 'random' : subreddit;
   request('https://www.reddit.com/r/'+ subreddit + '.json?sort=top&t=week', (err, res, body) => {
-    console.log('Reddit response body:', JSON.parse(body));
     //filter out stickied posts
     let topPosts = JSON.parse(body).data.children.filter((post) => {
       return !post.data.stickied;

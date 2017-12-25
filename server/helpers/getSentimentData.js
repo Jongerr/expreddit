@@ -1,6 +1,6 @@
 const request = require('request');
-
-const TOKEN = process.env.COGNATIVE_KEY_1;
+console.log('Assigning TOKEN:', process.env.COG_KEY1);
+const TOKEN = process.env.COG_KEY1;
 const endpoint = 'https://westcentralus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment';
 
 let testData = {
@@ -10,9 +10,8 @@ let testData = {
   ]
 };
 
-module.exports.getSentimentOfText = (subredditData) => {
+module.exports.getSentimentOfText = (subredditData, callback) => {
   let text = formatSubredditData(subredditData);
-  console.log('Text after formatting:', text);
   request({
     method: 'POST',
     url: endpoint,
@@ -22,7 +21,7 @@ module.exports.getSentimentOfText = (subredditData) => {
     },
     body: JSON.stringify(text)
   }, (err, res, body) => {
-    console.log(body);
+    callback(body);
   });
 }
 

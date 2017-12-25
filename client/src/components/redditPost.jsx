@@ -17,7 +17,6 @@ class RedditPost extends React.Component{
   }
 
   handleClick () {
-    console.log('Button clicked');
     this.setState({
       accordClass: this.state.accordClass === 'inactive' ? 'active' : 'inactive',
       panelStyle: this.state.panelStyle.display === 'none' ? {display: 'block'} : {display: 'none'}
